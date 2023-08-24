@@ -3,8 +3,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // import useRouter
 import Image from 'next/image';
+import axios from 'axios';
+
 
 const Hero = () => {
+
+  const BEEHIIV_API_KEY = process.env.BEEHIIV_API_KEY;
+  const BEEHIIV_PUBLICATION_ID = process.env.BEEHIIV_PUBLICATION_ID;
+
   const [email, setEmail] = useState('');
   const router = useRouter(); // initialize useRouter
 
@@ -14,15 +20,21 @@ const Hero = () => {
       email: email
     });
     console.log('Request body:', body);
-    const res = await fetch('/api/subscribe/subscribe', {
-      body: JSON.stringify({
-        email: email
-      }),
+
+    const res = await axios.post(`https://api.beehiiv.com/v2/publications/${BEEHIIV_PUBLICATION_ID}/subscriptions`, {
+      email: email,
+      reactivate_existing: false,
+      send_welcome_email: false,
+      // Add other parameters as required
+    }, {
       headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
+        'Authorization': `Bearer ${BEEHIIV_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
     });
+    
+    
     const result = await res.json();
     console.log('Response:', result);
 
