@@ -27,7 +27,7 @@ const Hero = () => {
     if (res.ok) {
       const result = await res.json();
       console.log('Response:', result);
-      router.push('https://www.blockgem.co/c/thank-you'); // redirect to /special-offer if successful
+      router.push('https://insights.blockgem.co/c/thank-you'); // redirect to /special-offer if successful
     } else {
       console.error('Error:', await res.text()); // Log the error response for debugging
       alert('Subscription failed. Please try again.'); // show alert message if failed
